@@ -242,6 +242,15 @@ describe("detectLicenseFromText", () => {
     expect(detectLicenseFromText(`The MIT License\nCopyright (c) 2026 Example\n${MIT}`)).toBe(
       "MIT",
     );
+    expect(detectLicenseFromText(`(The MIT License)\nCopyright (c) 2026 Example\n${MIT}`)).toBe(
+      "MIT",
+    );
+    expect(detectLicenseFromText(`The MIT License (MIT)\nCopyright (c) 2026 Example\n${MIT}`)).toBe(
+      "MIT",
+    );
+    expect(detectLicenseFromText(`Copyright (c) 2026 Example\nAll rights reserved.\n${MIT}`)).toBe(
+      "MIT",
+    );
   });
 
   it.each([

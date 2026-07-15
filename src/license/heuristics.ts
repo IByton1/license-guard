@@ -438,8 +438,10 @@ function hasUnexpectedPrefix(text: string): boolean {
       .trim();
     return (
       value.length > 0 &&
-      !/^(?:copyright\b|\(c\)|©|spdx-filecopyrighttext:)/i.test(value) &&
-      !/^(?:the\s+)?(?:(?:mit|isc|bsd(?:[- ]\d[- ]clause)?)\s+)?licen[cs]e:?$/i.test(value) &&
+      !/^(?:copyright\b|\(c\)|©|spdx-filecopyrighttext:|all rights reserved\b)/i.test(value) &&
+      !/^\(?(?:the\s+)?(?:(?:mit|isc|bsd(?:[- ]\d[- ]clause)?)\s+)?licen[cs]e:?\)?(?:\s*\((?:mit|isc|bsd(?:[- ]\d[- ]clause)?)\))?$/i.test(
+        value,
+      ) &&
       !/\b(?:is|are)\s+(?:distributed|licensed|released)\s+under\b.*\blicen[cs]e:?$/i.test(value) &&
       !/^spdx-license-identifier\s*:/i.test(value)
     );

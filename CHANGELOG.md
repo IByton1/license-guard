@@ -6,6 +6,13 @@ All notable changes to this project are documented in this file. The format foll
 
 ## [Unreleased]
 
+### Fixed
+
+- License text heuristics no longer flag common permissive-license header variants
+  (`(The MIT License)`, `The MIT License (MIT)`) or a standalone `All rights reserved.`
+  line as an unknown restriction, which previously caused false `DENIED` results for
+  many widely-used MIT/BSD packages (e.g. `express`, `body-parser`, `qs`).
+
 ## [0.1.0] - 2026-07-15
 
 ### Added
