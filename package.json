@@ -59,6 +59,14 @@
   },
   "sideEffects": false,
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IByton1/license-guard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/IByton1/license-guard/issues"
+  },
+  "homepage": "https://github.com/IByton1/license-guard#readme",
   "dependencies": {
     "picocolors": "^1.1.1",
     "spdx-expression-parse": "^4.0.0",

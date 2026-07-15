@@ -218,9 +218,9 @@ Runtime scans are local and offline. Publish releases from CI with npm trusted p
 provenance enabled. Report false negatives or other security-sensitive issues privately according
 to [SECURITY.md](SECURITY.md).
 
-Before the first release, add the canonical `repository` metadata and configure that repository
-and the `npm` GitHub environment as a trusted publisher for the package. The release workflow then
-publishes non-prerelease GitHub releases without a long-lived npm token.
+Configure `IByton1/license-guard`, `.github/workflows/release.yml`, and the `npm` GitHub environment
+as the package's trusted publisher on npm. The release workflow then publishes non-prerelease
+GitHub releases without a long-lived npm token.
 
 ## License
 
