@@ -6,6 +6,15 @@ All notable changes to this project are documented in this file. The format foll
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-07-15
+
+### Fixed
+
+- License text heuristics no longer misclassify permissive-license texts that include
+  multi-line header paragraphs, "the following license(s) applies" preambles, or known
+  benign trailing notices (e.g. CC0 sample-code waivers, externally maintained library
+  notices) as an unknown restriction.
+
 ## [0.1.1] - 2026-07-15
 
 ### Fixed
