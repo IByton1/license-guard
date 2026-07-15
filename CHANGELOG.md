@@ -6,6 +6,8 @@ All notable changes to this project are documented in this file. The format foll
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-07-15
+
 ### Fixed
 
 - License text heuristics no longer flag common permissive-license header variants
