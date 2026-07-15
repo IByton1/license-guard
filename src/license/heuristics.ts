@@ -431,21 +431,36 @@ function hasUnexpectedPrefix(text: string): boolean {
   if (!Number.isFinite(firstStart)) return false;
 
   const prefix = text.slice(0, firstStart);
-  return prefix.split(/\r?\n/).some((line) => {
-    const value = line
-      .trim()
-      .replace(/^[>#*;/\-\s]+/, "")
-      .trim();
+  return prefix.split(/\r?\n\s*\r?\n/).some((paragraph) => {
+    const value = paragraph
+      .split(/\r?\n/)
+      .map((line) =>
+        line
+          .trim()
+          .replace(/^[>#*;/\-\s]+/, "")
+          .trim(),
+      )
+      .filter((line) => line.length > 0)
+      .join(" ");
     return (
       value.length > 0 &&
-      !/^(?:copyright\b|\(c\)|©|spdx-filecopyrighttext:|all rights reserved\b)/i.test(value) &&
+      !/^[^\s]+$/.test(value) &&
+      !/copyright\b|\(c\)|©|spdx-filecopyrighttext:|all rights reserved\b/i.test(value) &&
       !/^\(?(?:the\s+)?(?:(?:mit|isc|bsd(?:[- ]\d[- ]clause)?)\s+)?licen[cs]e:?\)?(?:\s*\((?:mit|isc|bsd(?:[- ]\d[- ]clause)?)\))?$/i.test(
         value,
       ) &&
       !/\b(?:is|are)\s+(?:distributed|licensed|released)\s+under\b.*\blicen[cs]e:?$/i.test(value) &&
-      !/^spdx-license-identifier\s*:/i.test(value)
+      !/^spdx-license-identifier\s*:/i.test(value) &&
+      !/\bfollowing\s+licen[cs]e[s]?\s+applies?\b/i.test(value) &&
+      hasOperativeLanguage(value)
     );
   });
+}
+
+function hasOperativeLanguage(text: string): boolean {
+  return /\b(?:may|must|shall|permit(?:ted|s|ting)?|permission|grant(?:ed|s|ing)?|rights?|licen[cs]e[sd]?|restrict(?:ed|s|ion)?|prohibit(?:ed|s)?|forbid(?:den|s)?|requir(?:e[sd]?|ement)|only|solely|exclusiv(?:e|ely)|terminat(?:e[sd]?|ion)|expir(?:e[sd]?|ation)|not\b)/i.test(
+    text,
+  );
 }
 
 function hasUnexpectedTrailingText(text: string, licenses: readonly string[]): boolean {
@@ -461,7 +476,33 @@ function hasUnexpectedTrailingText(text: string, licenses: readonly string[]): b
     const index = text.lastIndexOf(ending);
     if (index !== -1) end = Math.max(end, index + ending.length);
   }
-  return end !== -1 && !/^[\s.;:,-]*$/.test(text.slice(end));
+  if (end === -1) return false;
+  return !/^[\s.;:,=-]*$/.test(stripKnownBenignTrailingNotices(text.slice(end)));
+}
+
+function stripKnownBenignTrailingNotices(text: string): string {
+  let result = text;
+
+  if (
+    includesAll(result, [
+      "copyright and related rights for sample code are waived via cc0",
+      "sample code is defined as all source code displayed within the prose of the documentation",
+    ])
+  ) {
+    result = result.replace(
+      /copyright and related rights for sample code are waived via cc0.*?documentation\.?(?:\s*cc0:\s*\S+)?/,
+      " ",
+    );
+  }
+
+  if (includesAll(result, ["are externally maintained libraries", "have their own licen"])) {
+    result = result.replace(
+      /files located in .{0,80}are externally maintained libraries.*?terms above\.?/,
+      " ",
+    );
+  }
+
+  return result;
 }
 
 function normalizeText(text: string): string {
