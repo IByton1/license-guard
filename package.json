@@ -1,5 +1,5 @@
 {
-  "name": "license-guard",
+  "name": "@ibyton/license-guard",
   "version": "0.1.0",
   "description": "Offline license compliance checks for npm dependency trees",
   "type": "module",

@@ -29,7 +29,7 @@ npx license-guard
 Or install it as a development dependency:
 
 ```sh
-npm install --save-dev license-guard
+npm install --save-dev @ibyton/license-guard
 ```
 
 The project must already be installed with npm because license evidence is read from
@@ -157,7 +157,7 @@ interface LicenseGuardReportV1 {
 ## Programmatic API
 
 ```ts
-import { analyze } from "license-guard";
+import { analyze } from "@ibyton/license-guard";
 
 const result = await analyze({
   projectPath: process.cwd(),

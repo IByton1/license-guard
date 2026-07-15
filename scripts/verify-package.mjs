@@ -103,19 +103,19 @@ try {
 
   writeFileSync(
     join(consumer, "esm.mjs"),
-    'import { normalizeSpdx } from "license-guard"; if (normalizeSpdx("Apache 2") !== "Apache-2.0") process.exit(1);\n',
+    'import { normalizeSpdx } from "@ibyton/license-guard"; if (normalizeSpdx("Apache 2") !== "Apache-2.0") process.exit(1);\n',
   );
   writeFileSync(
     join(consumer, "cjs.cjs"),
-    'const { normalizeSpdx } = require("license-guard"); if (normalizeSpdx("MIT") !== "MIT") process.exit(1);\n',
+    'const { normalizeSpdx } = require("@ibyton/license-guard"); if (normalizeSpdx("MIT") !== "MIT") process.exit(1);\n',
   );
   writeFileSync(
     join(consumer, "esm.mts"),
-    'import { normalizeSpdx } from "license-guard"; const license: string | null = normalizeSpdx("MIT");\n',
+    'import { normalizeSpdx } from "@ibyton/license-guard"; const license: string | null = normalizeSpdx("MIT");\n',
   );
   writeFileSync(
     join(consumer, "cjs.cts"),
-    'import { normalizeSpdx } from "license-guard"; const license: string | null = normalizeSpdx("MIT");\n',
+    'import { normalizeSpdx } from "@ibyton/license-guard"; const license: string | null = normalizeSpdx("MIT");\n',
   );
   writeFileSync(
     join(consumer, "tsconfig.json"),
@@ -129,7 +129,7 @@ try {
     consumer,
   );
   const installedPackage = JSON.parse(
-    readFileSync(join(consumer, "node_modules/license-guard/package.json"), "utf8"),
+    readFileSync(join(consumer, "node_modules/@ibyton/license-guard/package.json"), "utf8"),
   );
   if (installedPackage.bin?.["license-guard"] !== "dist/cli.js") {
     throw new Error("Installed package has an invalid license-guard bin mapping");
