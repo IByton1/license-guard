@@ -78,7 +78,13 @@ try {
     throw new Error(`Unexpected tarball contents:\n${actualFiles.join("\n")}`);
   }
   const cliEntry = packResult.files.find(({ path }) => path === "dist/cli.js");
-  if (cliEntry === undefined || (cliEntry.mode & 0o111) === 0) {
+  if (cliEntry === undefined) {
+    throw new Error("dist/cli.js is missing from the tarball");
+  }
+  // Windows/NTFS has no POSIX executable bit, so npm pack can never set one there;
+  // publishing only ever happens from ubuntu-latest (see release.yml), which is
+  // where this bit actually matters for installers.
+  if (process.platform !== "win32" && (cliEntry.mode & 0o111) === 0) {
     throw new Error("dist/cli.js is not executable in the tarball");
   }
   const archive = readdirSync(packed).find((file) => file.endsWith(".tgz"));
