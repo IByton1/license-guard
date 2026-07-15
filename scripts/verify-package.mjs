@@ -55,13 +55,11 @@ function runInstalledBin(args, cwd) {
     process.platform === "win32" ? "license-guard.cmd" : "license-guard",
   );
   if (!existsSync(executable)) throw new Error("npm did not create the license-guard bin shim");
-  const command = process.platform === "win32" ? (process.env.ComSpec ?? "cmd.exe") : executable;
-  const commandArgs =
-    process.platform === "win32" ? ["/d", "/s", "/c", `"${executable}" ${args.join(" ")}`] : args;
-  return execFileSync(command, commandArgs, {
+  return execFileSync(executable, args, {
     cwd,
     encoding: "utf8",
     stdio: "pipe",
+    shell: process.platform === "win32",
   });
 }
 
